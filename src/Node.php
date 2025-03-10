@@ -20,11 +20,11 @@ class Node
     /**
      * Constructor
      *
-     * @param string $tag        The tag name (e.g. table, tr, img, a, etc.)
-     * @param string $content    The content of the node
-     *                           Does not apply for void tags (e.g. input, img, etc.)
-     *                           This content will be escaped using htmlentities()
-     * @param array  $attributes Associative array of the attributes
+     * @param string $tag            The tag name (e.g. table, tr, img, a, etc.)
+     * @param string|null $content   The content of the node
+     *                               Does not apply for void tags (e.g. input, img, etc.)
+     *                               This content will be escaped using htmlentities()
+     * @param array|null $attributes Associative array of the attributes
      */
     public function __construct(string $tag, ?string $content = '', ?array $attributes = [])
     {
@@ -151,7 +151,7 @@ class Node
      */
     public function setId(string $id): self
     {
-        $this->addAttribute('id', $id);
+        $this->setAttribute('id', $id);
         return $this;
     }
 

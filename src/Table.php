@@ -6,6 +6,18 @@ use Ascarlat\PhpTable\Traits\StaticCallerTrait;
 
 /**
  * Generates an HTML table
+ * @method setHeader(string[] $array)
+ * @method static setHeader(string[] $array)
+ * @method setBody(array[] $array)
+ * @method static setBody(array[] $array)
+ * @method setFooter(string[] $array)
+ * @method static setFooter(string[] $array)
+ * @method useHeaderAsFooter(bool $what)
+ * @method static useHeaderAsFooter(bool $what)
+ * @method setColumns(string[] $array)
+ * @method static setColumns(string[] $array)
+ * @method addRow(string[] $array)
+ * @method static addRow(string[] $array)
  */
 class Table
 {
@@ -18,7 +30,8 @@ class Table
     protected bool $headerAsFooter = false;
 
     /**
-     * Set the header values
+     * Set the header values; It can be a numeric or associative array
+     * The same keys (numeric or associative) need to be both in header and in each row
      * Usage: Table::setHeader(['Name', 'Email', 'City']);
      *        $table->setHeader(['Name', 'Email', 'City']);
      *
@@ -62,26 +75,62 @@ class Table
         return $this;
     }
 
-
+    /**
+     * Set the keys or indexes used for each row, in case they differ from header
+     * Usage: Table::setColumns(['name', 'email'])
+     *        $table->setColumns(['name', 'email'])
+     *
+     * @param array $columns
+     *
+     * @return $this
+     */
     protected function _setColumns(array $columns): self
     {
-        $this->columns = $columns;
+        $this->columns = array_values($columns);
         return $this;
     }
 
+    /**
+     * The body of the table, it should be an array of rows
+     * Usage: Table::setBody([['John', 'Doe', 'New York'], ['Jane', 'Smith', 'Dallas']])
+     *        $table->setBody([['John', 'Doe', 'New York'], ['Jane', 'Smith', 'Dallas']])
+     *
+     * @param array $data
+     *
+     * @return $this
+     */
     protected function _setBody(array $data): self
     {
         $this->body = array_merge($this->body, $data);
         return $this;
     }
 
+    /**
+     * Add one row to the body
+     * Usage: Table::addRow(['John', 'Doe', 'New York'])
+     *        $table->addRow(['John', 'Doe', 'New York'])
+     *
+     * @param array $row
+     *
+     * @return $this
+     */
     protected function _addRow(array $row): self
     {
         $this->body[] = $row;
         return $this;
     }
 
-    protected function _htmlBlock(string $blockTag, string $cellTag, array $rows, ?bool $pretty = false): string
+    /**
+     * Generate a <tbody>, <thead> or <tfoot> block
+     *
+     * @param string $blockTag  The name of the block tag, e.g. tbody
+     * @param string $cellTag   The name of the cell, e.g. td or th
+     * @param array $rows       The rows to be added in the block
+     * @param bool|null $pretty If to add indentation and new lines
+     *
+     * @return string The generated HTML code
+     */
+    protected function htmlBlock(string $blockTag, string $cellTag, array $rows, ?bool $pretty = false): string
     {
         $html = '';
         foreach ($rows as $row) {
@@ -103,7 +152,7 @@ class Table
             foreach ($this->columns as $col) {
                 $header[] = $this->header[$col];
             }
-            $html .= $this->_htmlBlock('thead', 'th', [$header], $pretty);
+            $html .= $this->htmlBlock('thead', 'th', [$header], $pretty);
         }
 
         if (!empty($this->body)) {
@@ -113,7 +162,7 @@ class Table
                     $body[$i][] = $rows[$col];
                 }
             }
-            $html .= $this->_htmlBlock('tbody', 'td', $body);
+            $html .= $this->htmlBlock('tbody', 'td', $body);
         }
 
         $footerValues = $this->headerAsFooter ? $this->header : $this->footer;
@@ -123,7 +172,7 @@ class Table
             foreach ($this->columns as $col) {
                 $footer[] = $footerValues[$col];
             }
-            $html .= $this->_htmlBlock('tfoot', 'td', [$footer], $pretty);
+            $html .= $this->htmlBlock('tfoot', 'td', [$footer], $pretty);
         }
 
 
