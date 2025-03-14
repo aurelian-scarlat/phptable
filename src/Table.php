@@ -6,6 +6,7 @@ use Ascarlat\PhpTable\Traits\StaticCallerTrait;
 
 /**
  * Generates an HTML table
+ *
  * @method setHeader(string[] $array)
  * @method static setHeader(string[] $array)
  * @method setBody(array[] $array)
@@ -80,7 +81,7 @@ class Table
      * Usage: Table::setColumns(['name', 'email'])
      *        $table->setColumns(['name', 'email'])
      *
-     * @param array $columns
+     * @param array $columns The array of columns
      *
      * @return $this
      */
@@ -95,7 +96,7 @@ class Table
      * Usage: Table::setBody([['John', 'Doe', 'New York'], ['Jane', 'Smith', 'Dallas']])
      *        $table->setBody([['John', 'Doe', 'New York'], ['Jane', 'Smith', 'Dallas']])
      *
-     * @param array $data
+     * @param array $data The whole data for the table
      *
      * @return $this
      */
@@ -110,7 +111,7 @@ class Table
      * Usage: Table::addRow(['John', 'Doe', 'New York'])
      *        $table->addRow(['John', 'Doe', 'New York'])
      *
-     * @param array $row
+     * @param array $row The array of cells
      *
      * @return $this
      */
@@ -123,10 +124,10 @@ class Table
     /**
      * Generate a <tbody>, <thead> or <tfoot> block
      *
-     * @param string $blockTag  The name of the block tag, e.g. tbody
-     * @param string $cellTag   The name of the cell, e.g. td or th
-     * @param array $rows       The rows to be added in the block
-     * @param bool|null $pretty If to add indentation and new lines
+     * @param string    $blockTag The name of the block tag, e.g. tbody or thead
+     * @param string    $cellTag  The name of the cell, e.g. td or th
+     * @param array     $rows     The rows to be added in the block
+     * @param bool|null $pretty   To add indentation and new lines
      *
      * @return string The generated HTML code
      */
@@ -139,6 +140,13 @@ class Table
         return (new Node($blockTag))->setRawContent($html)->html($pretty * 2);
     }
 
+    /**
+     * Generate the HTML code for the whole table
+     *
+     * @param bool|null $pretty To add indentation and new lines
+     *
+     * @return string
+     */
     public function html(?bool $pretty = false): string
     {
         if (empty($this->columns)) {
@@ -179,6 +187,12 @@ class Table
         return (new Node('table'))->setAttribute('border', '1')->setRawContent($html)->html($pretty);
     }
 
+    /**
+     * So you can use a Table instance in a string operation
+     * (e.g. echo, print or concatenation)
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->html();

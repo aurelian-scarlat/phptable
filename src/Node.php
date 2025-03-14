@@ -20,11 +20,11 @@ class Node
     /**
      * Constructor
      *
-     * @param string $tag            The tag name (e.g. table, tr, img, a, etc.)
-     * @param string|null $content   The content of the node
-     *                               Does not apply for void tags (e.g. input, img, etc.)
-     *                               This content will be escaped using htmlentities()
-     * @param array|null $attributes Associative array of the attributes
+     * @param string      $tag        The tag name (e.g. table, tr, img, a, etc.)
+     * @param string|null $content    The content of the node
+     *                                Does not apply for void tags (e.g. input, img, etc.)
+     *                                This content will be escaped using htmlentities()
+     * @param array|null  $attributes Associative array of the attributes
      */
     public function __construct(string $tag, ?string $content = '', ?array $attributes = [])
     {
@@ -159,8 +159,8 @@ class Node
      * Generates the HTML code for this node
      *
      * @param int|null $indentation The number of spaces used for indentation
-     *                         The content will be indented by an extra 2 spaces
-     *                         Use 0 for no indentation
+     *                              The content will be indented by an extra 2 spaces
+     *                              Use 0 for no indentation
      *
      * @return string
      */
@@ -186,7 +186,7 @@ class Node
     }
 
     /**
-     * So you can use a row instance in a string operation
+     * So you can use a Row instance in a string operation
      * (e.g. echo, print or concatenation)
      *
      * @return string

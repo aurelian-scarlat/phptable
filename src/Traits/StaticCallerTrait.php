@@ -15,8 +15,8 @@ trait StaticCallerTrait
     /**
      * This method is called when another method was called in a static context
      *
-     * @param string $name Method name
-     * @param array $arguments Method arguments
+     * @param string $name      Method name
+     * @param array  $arguments Method arguments
      *
      * @return self $instance
      * @throws TableException
@@ -32,8 +32,8 @@ trait StaticCallerTrait
      * To prevent calls to all protected/private methods, their name needs to start
      * with _ and MUST return an instance of the object
      *
-     * @param string $name Method name
-     * @param array $arguments Method arguments
+     * @param string $name      Method name
+     * @param array  $arguments Method arguments
      *
      * @return $this
      * @throws TableException

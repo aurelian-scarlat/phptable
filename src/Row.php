@@ -16,8 +16,8 @@ class Row
     /**
      * Constructor
      *
-     * @param array $cells An array of strings with the content of each cell
-     * @param string|null $tag If <td> or <th> should be used for output
+     * @param array       $cells An array of strings with the content of each cell
+     * @param string|null $tag   If <td> or <th> should be used for output
      */
     public function __construct(array $cells, ?string $tag = 'td')
     {
